@@ -6,10 +6,10 @@
     <AssemblyName>PhoenixAdult.NET</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>DirtyRacer</Authors>
-    <Company>Home</Company>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <Company>DirtyRacer</Company>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2</FileVersion>
     <Description>This plugin provider information for your adult videos by pulling from the original site</Description>
   </PropertyGroup>
 

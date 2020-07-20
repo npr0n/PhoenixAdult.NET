@@ -1,16 +1,14 @@
-using Flurl.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace PhoenixAdultNET.Providers.Helpers
 {
     public static class PhoenixAdultNETActors
     {
-        public async static Task<List<Actor>> Cleanup(Scene item, CancellationToken cancellationToken)
+        public static async Task<List<Actor>> Cleanup(Scene item, CancellationToken cancellationToken)
         {
             var newPeoples = new List<Actor>();
 
@@ -26,9 +24,9 @@ namespace PhoenixAdultNET.Providers.Helpers
 
                 if (string.IsNullOrEmpty(people.Photo))
                 {
-                    var Photo = await GetActorPhoto(people.Name, cancellationToken).ConfigureAwait(false);
-                    if (!string.IsNullOrEmpty(Photo))
-                        people.Photo = Photo;
+                    var photos = await PhoenixAdultNETActorProvider.GetActorPhotos(people.Name, cancellationToken).ConfigureAwait(false);
+                    if (photos.Count > 0)
+                        people.Photo = photos.First().Value;
                 }
 
                 if (!newPeoples.Any(person => person.Name == people.Name))
@@ -154,122 +152,7 @@ namespace PhoenixAdultNET.Providers.Helpers
             return actorName;
         }
 
-        public static async Task<string> GetActorPhoto(string Name, CancellationToken cancellationToken)
-        {
-            string image;
-
-            image = await GetFromAdultDVDEmpire(Name, cancellationToken).ConfigureAwait(false);
-            if (!string.IsNullOrEmpty(image))
-                return image;
-
-            image = await GetFromBoobpedia(Name, cancellationToken).ConfigureAwait(false);
-            if (!string.IsNullOrEmpty(image))
-                return image;
-
-            image = await GetFromBabepedia(Name, cancellationToken).ConfigureAwait(false);
-            if (!string.IsNullOrEmpty(image))
-                return image;
-
-            image = await GetFromIAFD(Name, cancellationToken).ConfigureAwait(false);
-            if (!string.IsNullOrEmpty(image))
-                return image;
-
-            return string.Empty;
-        }
-
-        private static async Task<string> GetFromAdultDVDEmpire(string name, CancellationToken cancellationToken)
-        {
-            string image = null;
-
-            if (string.IsNullOrEmpty(name))
-                return image;
-
-            string encodedName = HttpUtility.UrlEncode(name),
-                   url = $"https://www.adultdvdempire.com/performer/search?q={encodedName}";
-
-            var actorData = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
-
-            var actorNode = actorData.SelectSingleNode("//div[@id='performerlist']/div//a");
-            if (actorNode != null)
-            {
-                var actorPageURL = "https://www.adultdvdempire.com" + actorNode.Attributes["href"].Value;
-                var actorPage = await HTML.ElementFromURL(actorPageURL, cancellationToken).ConfigureAwait(false);
-
-                var img = actorPage.SelectSingleNode("//div[contains(@class, 'performer-image-container')]/a");
-                if (img != null)
-                    image = img.Attributes["href"].Value;
-            }
-
-            return image;
-        }
-
-        private static async Task<string> GetFromBoobpedia(string name, CancellationToken cancellationToken)
-        {
-            string image = null;
-
-            if (string.IsNullOrEmpty(name))
-                return image;
-
-            string encodedName = HttpUtility.UrlEncode(name),
-                   url = $"http://www.boobpedia.com/wiki/index.php?search={encodedName}";
-
-            var actorData = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
-
-            var actorImageNode = actorData.SelectSingleNode("//table[@class='infobox']//a[@class='image']//img");
-            if (actorImageNode != null)
-            {
-                var img = actorImageNode.Attributes["src"].Value;
-                if (!img.Contains("NoImage", StringComparison.OrdinalIgnoreCase))
-                    image = "http://www.boobpedia.com" + actorImageNode.Attributes["src"].Value;
-            }
-
-            return image;
-        }
-
-        private static async Task<string> GetFromBabepedia(string name, CancellationToken cancellationToken)
-        {
-            string image = null;
-
-            if (string.IsNullOrEmpty(name))
-                return image;
-
-            string actorImage = $"http://www.babepedia.com/pics/{name}.jpg";
-
-            var http = await actorImage.AllowAnyHttpStatus().WithHeader("User-Agent", "Googlebot-Image/1.0").HeadAsync(cancellationToken).ConfigureAwait(false);
-            if (http.IsSuccessStatusCode)
-                image = actorImage;
-
-            return image;
-        }
-
-        private static async Task<string> GetFromIAFD(string name, CancellationToken cancellationToken)
-        {
-            string image = null;
-
-            if (string.IsNullOrEmpty(name))
-                return image;
-
-            string encodedName = HttpUtility.UrlEncode(name),
-                   url = $"http://www.iafd.com/results.asp?searchtype=comprehensive&searchstring={encodedName}";
-
-            var actorData = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
-
-            var actorNode = actorData.SelectSingleNode("//table[@id='tblFem']//tbody//a");
-            if (actorNode != null)
-            {
-                var actorPageURL = "http://www.iafd.com" + actorNode.Attributes["href"].Value;
-                var actorPage = await HTML.ElementFromURL(actorPageURL, cancellationToken).ConfigureAwait(false);
-
-                var actorImage = actorPage.SelectSingleNode("//div[@id='headshot']//img").Attributes["src"].Value;
-                if (!actorImage.Contains("nophoto", StringComparison.OrdinalIgnoreCase))
-                    image = actorImage;
-            }
-
-            return image;
-        }
-
         public static readonly Dictionary<string, string[]> ReplaceList = new Dictionary<string, string[]> {
-
             { "Abbey Rain", new string[] { "Abby Rains" } },
             { "Abby Lee Brazil", new string[] { "Abby Lee" } },
             { "Abella Danger", new string[] { "Bella Danger" } },

@@ -140,15 +140,15 @@ namespace PhoenixAdultNET.Providers.Sites
                 if (actorData["pictures"] != null)
                     actorPhotoURL = (string)actorData["pictures"].Last;
 
-                var Actor = new Actor
+                var actor = new Actor
                 {
                     Name = actorName
                 };
 
                 if (actorPhotoURL != null)
-                    Actor.Photo = $"https://images-fame.gammacdn.com/actors{actorPhotoURL}";
+                    actor.Photo = $"https://images-fame.gammacdn.com/actors{actorPhotoURL}";
 
-                result.Actors.Add(Actor);
+                result.Actors.Add(actor);
             }
 
             var ignore = false;

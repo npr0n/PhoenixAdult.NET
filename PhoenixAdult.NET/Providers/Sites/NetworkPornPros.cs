@@ -16,8 +16,8 @@ namespace PhoenixAdultNET.Providers.Sites
                 return result;
 
             var directURL = searchTitle.Replace(" ", "-", StringComparison.OrdinalIgnoreCase).Replace("'", "-", StringComparison.OrdinalIgnoreCase);
-            if (int.TryParse(directURL.Substring(directURL.Length - 1, 1), out _) && directURL.Substring(directURL.Length - 2, 1) == "-")
-                directURL = directURL[0..^1] + "-" + directURL.Substring(directURL.Length - 1, 1);
+            if (int.TryParse(directURL[^1..], out _) && directURL[^2..^1] == "-")
+                directURL = $"{directURL[0..^1]}-{directURL[^1..]}";
 
             string sceneURL = PhoenixAdultNETHelper.GetSearchSearchURL(siteNum) + directURL,
                     curID = $"{siteNum[0]}#{siteNum[1]}#{PhoenixAdultNETHelper.Encode(sceneURL)}";

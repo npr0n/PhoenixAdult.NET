@@ -9,11 +9,14 @@ namespace PhoenixAdultNET.Providers.Helpers
 {
     public static class HTML
     {
+        public static string GetUserAgent() => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36";
+
         public static async Task<HtmlNode> ElementFromURL(string url, CancellationToken cancellationToken)
         {
-            var http = await url.GetAsync(cancellationToken).ConfigureAwait(false);
             var html = new HtmlDocument();
-            html.Load(await http.Content.ReadAsStreamAsync().ConfigureAwait(false));
+            var http = await url.AllowAnyHttpStatus().WithHeader("User-Agent", GetUserAgent()).GetAsync(cancellationToken).ConfigureAwait(false);
+            if (http.IsSuccessStatusCode)
+                html.Load(await http.Content.ReadAsStreamAsync().ConfigureAwait(false));
 
             return html.DocumentNode;
         }

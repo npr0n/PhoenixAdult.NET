@@ -14,10 +14,12 @@ namespace PhoenixAdultNET.Providers.Sites
         public static async Task<IDictionary<string, Cookie>> GetCookies(string url, CancellationToken cancellationToken)
         {
             IDictionary<string, Cookie> cookies;
-            var http = new FlurlClient(url).EnableCookies().AllowAnyHttpStatus();
-            await http.Request().HeadAsync(cancellationToken).ConfigureAwait(false);
-            cookies = http.Cookies;
-            http.Dispose();
+
+            using (var http = new FlurlClient(url))
+            {
+                await http.EnableCookies().AllowAnyHttpStatus().Request().HeadAsync(cancellationToken).ConfigureAwait(false);
+                cookies = http.Cookies;
+            }
 
             return cookies;
         }
@@ -121,15 +123,15 @@ namespace PhoenixAdultNET.Providers.Sites
                 if (actorData != null)
                 {
                     actorData = (JObject)actorData["result"].First;
-                    var Actor = new Actor
+                    var actor = new Actor
                     {
                         Name = (string)actorLink["name"]
                     };
 
                     if (actorData["images"] != null && actorData["images"].Type == JTokenType.Object)
-                        Actor.Photo = (string)actorData["images"]["profile"].First["xs"]["url"];
+                        actor.Photo = (string)actorData["images"]["profile"].First["xs"]["url"];
 
-                    result.Actors.Add(Actor);
+                    result.Actors.Add(actor);
 
                 }
             }

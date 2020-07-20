@@ -99,20 +99,20 @@ namespace PhoenixAdultNET.Providers.Sites
                 if (actorImageNode != null)
                     actorPhoto = actorImageNode.Attributes["src"]?.Value;
 
-                var Actor = new Actor
+                var actor = new Actor
                 {
                     Name = actorName
                 };
                 if (!string.IsNullOrEmpty(actorPhoto))
-                    Actor.Photo = $"https:{actorPhoto}";
+                    actor.Photo = $"https:{actorPhoto}";
 
-                result.Actors.Add(Actor);
+                result.Actors.Add(actor);
             }
 
             var sceneURL = $"https://www.naughtyamerica.com/scene/0{sceneID[2]}";
-            var HTMLsceneData = await HTML.ElementFromURL(sceneURL, cancellationToken).ConfigureAwait(false);
+            var sceneDataHTML = await HTML.ElementFromURL(sceneURL, cancellationToken).ConfigureAwait(false);
 
-            foreach (var sceneImages in HTMLsceneData.SelectNodes("//div[contains(@class, 'contain-scene-images') and contains(@class, 'desktop-only')]/a"))
+            foreach (var sceneImages in sceneDataHTML.SelectNodes("//div[contains(@class, 'contain-scene-images') and contains(@class, 'desktop-only')]/a"))
             {
                 var image = $"https:{sceneImages.Attributes["href"].Value}";
                 result.Posters.Add(image);

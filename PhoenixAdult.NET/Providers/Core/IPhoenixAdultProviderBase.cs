@@ -12,7 +12,6 @@ namespace PhoenixAdultNET.Providers
         public DateTime? ReleaseDate { get; set; }
         public string Poster { get; set; }
         public int? IndexNumber { get; set; }
-
     }
 
     public class Scene
