@@ -14,14 +14,14 @@ namespace PhoenixAdultNET.Providers
     public static class PhoenixAdultNETProvider
     {
         public static readonly CultureInfo Lang = new CultureInfo("en-US", false);
-        public async static Task<List<SceneSearch>> Search(string FileName, CancellationToken cancellationToken)
+        public static async Task<List<SceneSearch>> Search(string fileName, CancellationToken cancellationToken)
         {
             var result = new List<SceneSearch>();
 
-            if (string.IsNullOrEmpty(FileName))
+            if (string.IsNullOrEmpty(fileName))
                 return result;
 
-            var title = ReplaceAbbrieviation(FileName);
+            var title = ReplaceAbbrieviation(fileName);
             var site = GetSiteFromTitle(title);
             if (site.Key != null)
             {
@@ -58,7 +58,7 @@ namespace PhoenixAdultNET.Providers
             return result;
         }
 
-        public async static Task<Scene> Update(string externalID, CancellationToken cancellationToken)
+        public static async Task<Scene> Update(string externalID, CancellationToken cancellationToken)
         {
             var result = new Scene();
 
@@ -93,13 +93,16 @@ namespace PhoenixAdultNET.Providers
 
                     foreach (var image in result.Posters)
                     {
-                        var http = await image.AllowAnyHttpStatus().HeadAsync(cancellationToken).ConfigureAwait(false);
-                        if (http.IsSuccessStatusCode)
+                        if (!clearPosters.Contains(image))
                         {
-                            var img = Image.FromStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false));
+                            var http = await image.AllowAnyHttpStatus().HeadAsync(cancellationToken).ConfigureAwait(false);
+                            if (http.IsSuccessStatusCode)
+                            {
+                                var img = Image.FromStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false));
 
-                            if (img.Width > 100)
-                                clearPosters.Add(image);
+                                if (img.Width > 100)
+                                    clearPosters.Add(image);
+                            }
                         }
                     }
 
@@ -110,13 +113,21 @@ namespace PhoenixAdultNET.Providers
                 var clearBackgrounds = new List<string>();
                 foreach (var image in result.Backgrounds)
                 {
-                    var http = await image.AllowAnyHttpStatus().HeadAsync(cancellationToken).ConfigureAwait(false);
-                    if (http.IsSuccessStatusCode)
+                    if (!clearBackgrounds.Contains(image))
                     {
-                        var img = Image.FromStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false));
-
-                        if (img.Width > 100)
+                        if (result.Posters.Contains(image))
                             clearBackgrounds.Add(image);
+                        else
+                        {
+                            var http = await image.AllowAnyHttpStatus().HeadAsync(cancellationToken).ConfigureAwait(false);
+                            if (http.IsSuccessStatusCode)
+                            {
+                                var img = Image.FromStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false));
+
+                                if (img.Width > 100)
+                                    clearBackgrounds.Add(image);
+                            }
+                        }
                     }
                 }
 
