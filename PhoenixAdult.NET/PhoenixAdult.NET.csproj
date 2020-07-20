@@ -4,6 +4,9 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>PhoenixAdultNET</RootNamespace>
     <AssemblyName>PhoenixAdult.NET</AssemblyName>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>DirtyRacer</Authors>
+    <Company>Home</Company>
   </PropertyGroup>
 
   <ItemGroup>
