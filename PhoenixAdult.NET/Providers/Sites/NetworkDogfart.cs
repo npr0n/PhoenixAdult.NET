@@ -1,9 +1,9 @@
-using PhoenixAdultNET.Providers.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using PhoenixAdultNET.Providers.Helpers;
 
 namespace PhoenixAdultNET.Providers.Sites
 {
@@ -26,7 +26,7 @@ namespace PhoenixAdultNET.Providers.Sites
                             curID = $"{siteNum[0]}#{siteNum[1]}#{PhoenixAdultNETHelper.Encode(sceneURL)}",
                             sceneName = searchResult.SelectSingleNode(".//div/h3[@class='scene-title']").InnerText,
                             posterURL = $"https:{searchResult.SelectSingleNode(".//img").Attributes["src"].Value}",
-                            subSite = searchResult.SelectSingleNode(".//div/p[@class='help-block']").InnerText.Split(".com")[0];
+                            subSite = searchResult.SelectSingleNode(".//div/p[@class='help-block']").InnerText.Replace(".com", "", StringComparison.OrdinalIgnoreCase);
 
                     var res = new SceneSearch
                     {
@@ -43,9 +43,9 @@ namespace PhoenixAdultNET.Providers.Sites
                     res.CurID = curID;
 
                     if (subSite == PhoenixAdultNETHelper.GetSearchSiteName(siteNum))
-                        res.IndexNumber = PhoenixAdultNETHelper.LevenshteinDistance(searchTitle, sceneName) - 100;
+                        res.IndexNumber = LevenshteinDistance.Calculate(searchTitle, sceneName) - 100;
                     else
-                        res.IndexNumber = PhoenixAdultNETHelper.LevenshteinDistance(searchTitle, sceneName) - 60;
+                        res.IndexNumber = LevenshteinDistance.Calculate(searchTitle, sceneName) - 60;
 
                     result.Add(res);
                 }

@@ -34,7 +34,8 @@ namespace PhoenixAdultNET.Providers
 
     public interface IPhoenixAdultNETProviderBase
     {
-        public Task<List<SceneSearch>> Search(int[] siteNum, string searchTitle, string encodedTitle, DateTime? searchDate, CancellationToken cancellationToken);
-        public Task<Scene> Update(string[] sceneID, CancellationToken cancellationToken);
+        Task<List<SceneSearch>> Search(int[] siteNum, string searchTitle, string encodedTitle, DateTime? searchDate, CancellationToken cancellationToken);
+
+        Task<Scene> Update(string[] sceneID, CancellationToken cancellationToken);
     }
 }

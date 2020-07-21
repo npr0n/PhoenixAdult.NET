@@ -744,34 +744,37 @@ namespace PhoenixAdultNET.Providers
             { @"^zzs ", "ZZseries " },
         };
 
-        public static IPhoenixAdultNETProviderBase GetProviderBySiteID(int siteID) => siteID switch
+        public static IPhoenixAdultNETProviderBase GetProviderBySiteID(int siteID)
         {
-            0 => new SiteBrazzers(),
-            1 => new NetworkBang(),
-            2 => new Network1service(),
-            3 => new Network1service(),
-            4 => new Network1service(),
-            5 => new Network1service(),
-            6 => new Network1service(),
-            7 => new Network1service(),
-            8 => new Network1service(),
-            9 => new Network1service(),
-            10 => new SiteNaughtyAmerica(),
-            11 => new NetworkGammaEnt(),
-            12 => new NetworkGammaEnt(),
-            13 => new NetworkGammaEnt(),
-            14 => new NetworkGammaEnt(),
-            15 => new NetworkGammaEnt(),
-            16 => new NetworkKink(),
-            17 => new NetworkR18(),
-            18 => new NetworkFemdomEmpire(),
-            19 => new NetworkDogfart(),
-            20 => new NetworkPornPros(),
-            21 => new NetworkPornPros(),
-            22 => new SiteBangBros(),
-            23 => new NetworkMylf(),
-            24 => new NetworkMylf(),
-            _ => null
-        };
+            switch (siteID)
+            {
+                case 0: return new SiteBrazzers();
+                case 1: return new NetworkBang();
+                case 2: return new Network1service();
+                case 3: return new Network1service();
+                case 4: return new Network1service();
+                case 5: return new Network1service();
+                case 6: return new Network1service();
+                case 7: return new Network1service();
+                case 8: return new Network1service();
+                case 9: return new Network1service();
+                case 10: return new SiteNaughtyAmerica();
+                case 11: return new NetworkGammaEnt();
+                case 12: return new NetworkGammaEnt();
+                case 13: return new NetworkGammaEnt();
+                case 14: return new NetworkGammaEnt();
+                case 15: return new NetworkGammaEnt();
+                case 16: return new NetworkKink();
+                case 17: return new NetworkR18();
+                case 18: return new NetworkFemdomEmpire();
+                case 19: return new NetworkDogfart();
+                case 20: return new NetworkPornPros();
+                case 21: return new NetworkPornPros();
+                case 22: return new SiteBangBros();
+                case 23: return new NetworkMylf();
+                case 24: return new NetworkMylf();
+                default: return null;
+            };
+        }
     }
 }

@@ -49,11 +49,11 @@ namespace PhoenixAdultNET.Providers.Helpers
 
             if (!string.IsNullOrEmpty(sceneName))
             {
-                if (genreName.Contains(':', StringComparison.OrdinalIgnoreCase))
+                if (genreName.Contains(":", StringComparison.OrdinalIgnoreCase))
                     if (sceneName.Contains(genreName.Split(':').First(), StringComparison.OrdinalIgnoreCase))
                         return null;
 
-                if (genreName.Contains('-', StringComparison.OrdinalIgnoreCase))
+                if (genreName.Contains("-", StringComparison.OrdinalIgnoreCase))
                     if (sceneName.Contains(genreName.Split('-').First(), StringComparison.OrdinalIgnoreCase))
                         return null;
 

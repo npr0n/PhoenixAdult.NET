@@ -1,9 +1,9 @@
-using Flurl.Http;
-using PhoenixAdultNET.Providers.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Flurl.Http;
+using PhoenixAdultNET.Providers.Helpers;
 
 namespace PhoenixAdultNET.Providers.Sites
 {

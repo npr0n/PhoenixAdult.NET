@@ -1,10 +1,10 @@
-using PhoenixAdultNET.Providers.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using PhoenixAdultNET.Providers.Helpers;
 
 namespace PhoenixAdultNET.Providers.Sites
 {
@@ -48,7 +48,7 @@ namespace PhoenixAdultNET.Providers.Sites
                     };
 
                     if (!string.IsNullOrEmpty(searchJAVID))
-                        res.IndexNumber = PhoenixAdultNETHelper.LevenshteinDistance(searchJAVID, javID);
+                        res.IndexNumber = LevenshteinDistance.Calculate(searchJAVID, javID);
 
                     result.Add(res);
                 }

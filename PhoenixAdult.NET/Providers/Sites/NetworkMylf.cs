@@ -1,6 +1,3 @@
-using Flurl.Http;
-using Newtonsoft.Json.Linq;
-using PhoenixAdultNET.Providers.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,6 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Flurl.Http;
+using Newtonsoft.Json.Linq;
+using PhoenixAdultNET.Providers.Helpers;
 
 namespace PhoenixAdultNET.Providers.Sites
 {
@@ -37,12 +37,12 @@ namespace PhoenixAdultNET.Providers.Sites
 
             var directURL = searchTitle.Replace(" ", "-", StringComparison.OrdinalIgnoreCase).ToLower(PhoenixAdultNETProvider.Lang);
             if (!directURL.Contains("/", StringComparison.OrdinalIgnoreCase))
-                directURL = PhoenixAdultNETHelper.ReplaceFirst(directURL, "-", "/");
+                directURL = directURL.Replace("-", "/", 1, StringComparison.OrdinalIgnoreCase);
 
-            if (!int.TryParse(directURL.Split("/")[0], out _))
-                directURL = PhoenixAdultNETHelper.ReplaceFirst(directURL, "/", "-");
+            if (!int.TryParse(directURL.Split('/')[0], out _))
+                directURL = directURL.Replace("/", "-", 1, StringComparison.OrdinalIgnoreCase);
             else
-                directURL = directURL.Split("/")[1];
+                directURL = directURL.Split('/')[1];
 
             directURL = PhoenixAdultNETHelper.GetSearchSearchURL(siteNum) + directURL;
             var searchResultsURLs = new List<string>
@@ -53,7 +53,7 @@ namespace PhoenixAdultNET.Providers.Sites
             var searchResults = await PhoenixAdultNETHelper.GetGoogleSearchResults(searchTitle, siteNum, cancellationToken).ConfigureAwait(false);
             foreach (var searchResult in searchResults)
             {
-                var url = searchResult.Split("?").First();
+                var url = searchResult.Split('?').First();
                 if (url.Contains("/movies/", StringComparison.OrdinalIgnoreCase) && !searchResultsURLs.Contains(url))
                     searchResultsURLs.Add(url);
             }

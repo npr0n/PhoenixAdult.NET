@@ -1,5 +1,3 @@
-using Flurl.Http;
-using PhoenixAdultNET.Providers.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,6 +6,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Flurl.Http;
+using PhoenixAdultNET.Providers.Helpers;
+using SkiaSharp;
 
 namespace PhoenixAdultNET.Providers
 {
@@ -44,6 +45,7 @@ namespace PhoenixAdultNET.Providers
                 var provider = PhoenixAdultNETList.GetProviderBySiteID(siteNum[0]);
                 if (provider != null)
                 {
+                    Console.WriteLine(searchTitle);
                     result = await provider.Search(siteNum, searchTitle, encodedTitle, searchDateObj, cancellationToken).ConfigureAwait(false);
                     if (result.Count > 0)
                         if (result.Any(scene => scene.IndexNumber.HasValue))
@@ -51,7 +53,7 @@ namespace PhoenixAdultNET.Providers
                         else if (!string.IsNullOrEmpty(searchDate) && result.All(scene => scene.ReleaseDate.HasValue) && result.Any(scene => scene.ReleaseDate.Value != searchDateObj))
                             result = result.OrderBy(scene => Math.Abs((searchDateObj - scene.ReleaseDate).Value.TotalDays)).ToList();
                         else
-                            result = result.OrderByDescending(scene => 100 - PhoenixAdultNETHelper.LevenshteinDistance(searchTitle, scene.Title)).ToList();
+                            result = result.OrderByDescending(scene => 100 - LevenshteinDistance.Calculate(searchTitle, scene.Title)).ToList();
                 }
             }
 
@@ -98,10 +100,12 @@ namespace PhoenixAdultNET.Providers
                             var http = await image.AllowAnyHttpStatus().HeadAsync(cancellationToken).ConfigureAwait(false);
                             if (http.IsSuccessStatusCode)
                             {
-                                var img = Image.FromStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false));
-
-                                if (img.Width > 100)
-                                    clearPosters.Add(image);
+                                using (var inputStream = new SKManagedStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false)))
+                                using (var img = SKBitmap.Decode(inputStream))
+                                {
+                                    if (img.Width > 100)
+                                        clearPosters.Add(image);
+                                }
                             }
                         }
                     }
@@ -122,10 +126,12 @@ namespace PhoenixAdultNET.Providers
                             var http = await image.AllowAnyHttpStatus().HeadAsync(cancellationToken).ConfigureAwait(false);
                             if (http.IsSuccessStatusCode)
                             {
-                                var img = Image.FromStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false));
-
-                                if (img.Width > 100)
-                                    clearBackgrounds.Add(image);
+                                using (var inputStream = new SKManagedStream(await image.GetStreamAsync(cancellationToken).ConfigureAwait(false)))
+                                using (var img = SKBitmap.Decode(inputStream))
+                                {
+                                    if (img.Width > 100)
+                                        clearBackgrounds.Add(image);
+                                }
                             }
                         }
                     }
@@ -171,9 +177,9 @@ namespace PhoenixAdultNET.Providers
             clearSite = Regex.Replace(clearSite, @"\W", string.Empty);
 
             bool matched = false;
-            while (clearName.Contains(' ', StringComparison.OrdinalIgnoreCase))
+            while (clearName.Contains(" ", StringComparison.OrdinalIgnoreCase))
             {
-                clearName = PhoenixAdultNETHelper.ReplaceFirst(clearName, " ", string.Empty);
+                clearName = clearName.Replace(" ", string.Empty, 1, StringComparison.OrdinalIgnoreCase);
                 if (clearName.StartsWith(clearSite, StringComparison.OrdinalIgnoreCase))
                 {
                     matched = true;
@@ -184,7 +190,7 @@ namespace PhoenixAdultNET.Providers
             if (matched)
             {
                 clearName = clearName.Replace(clearSite, string.Empty, StringComparison.OrdinalIgnoreCase);
-                clearName = string.Join(" ", clearName.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                clearName = string.Join(" ", clearName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
 
             return clearName;

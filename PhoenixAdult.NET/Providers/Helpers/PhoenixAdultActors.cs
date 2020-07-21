@@ -18,7 +18,7 @@ namespace PhoenixAdultNET.Providers.Helpers
             foreach (var people in item.Actors)
             {
                 people.Name = PhoenixAdultNETProvider.Lang.TextInfo.ToTitleCase(people.Name);
-                people.Name = people.Name.Split("(").First().Trim();
+                people.Name = people.Name.Split(new[] { ' ' }).First().Trim();
                 people.Name = people.Name.Replace("™", string.Empty, StringComparison.OrdinalIgnoreCase);
                 people.Name = Replace(people.Name, item.Studios);
 

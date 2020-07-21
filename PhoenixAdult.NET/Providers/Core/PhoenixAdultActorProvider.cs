@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using Flurl.Http;
 using PhoenixAdultNET.Providers.Helpers;
 
 namespace PhoenixAdultNET.Providers
@@ -48,7 +47,8 @@ namespace PhoenixAdultNET.Providers
             var actorData = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
 
             var actorNode = actorData.SelectSingleNode("//div[@id='performerlist']/div//a");
-            if (actorNode != null) {
+            if (actorNode != null)
+            {
                 var actorPageURL = "https://www.adultdvdempire.com" + actorNode.Attributes["href"].Value;
                 var actorPage = await HTML.ElementFromURL(actorPageURL, cancellationToken).ConfigureAwait(false);
 
@@ -73,7 +73,8 @@ namespace PhoenixAdultNET.Providers
             var actorData = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
 
             var actorImageNode = actorData.SelectSingleNode("//table[@class='infobox']//a[@class='image']//img");
-            if (actorImageNode != null) {
+            if (actorImageNode != null)
+            {
                 var img = actorImageNode.Attributes["src"].Value;
                 if (!img.Contains("NoImage", StringComparison.OrdinalIgnoreCase))
                     image = "http://www.boobpedia.com" + actorImageNode.Attributes["src"].Value;
@@ -114,7 +115,8 @@ namespace PhoenixAdultNET.Providers
             var actorData = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
 
             var actorNode = actorData.SelectSingleNode("//table[@id='tblFem']//tbody//a");
-            if (actorNode != null) {
+            if (actorNode != null)
+            {
                 var actorPageURL = "http://www.iafd.com" + actorNode.Attributes["href"].Value;
                 var actorPage = await HTML.ElementFromURL(actorPageURL, cancellationToken).ConfigureAwait(false);
 
