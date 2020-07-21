@@ -59,7 +59,7 @@ dotnet publish --configuration Release --output bin
 - [Html Agility Pack](https://github.com/zzzprojects/html-agility-pack)
 - [Flurl](https://github.com/tmenier/Flurl)
 - [Json.NET](https://github.com/JamesNK/Newtonsoft.Json)
-- [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common)
+- [SkiaSharp](https://www.nuget.org/packages/SkiaSharp)
 
 ## Supported Networks
 To view the full list of supported sites, [check out the sitelist doc](./docs/sitelist.md).
