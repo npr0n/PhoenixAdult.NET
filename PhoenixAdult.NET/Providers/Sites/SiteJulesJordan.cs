@@ -129,13 +129,16 @@ namespace PhoenixAdultNET.Providers.Sites
 
                 var scenePosters = sceneSearch.SelectSingleNode($"//img[@id='set-target-{setId}' and contains(@class, 'hideMobile')]");
                 if (scenePosters != null)
-                    for (int i = 0; i < scenePosters.Attributes.Count(item => item.Name.Contains("src") && item.Name.Contains("_")); i++)
+                    for (int i = 0; i <= scenePosters.Attributes.Count(item => item.Name.Contains("src")); i++)
                     {
-                        var img = scenePosters.Attributes[$"src{i}_1x"].Value;
-                        result.Posters.Add(img);
-                        result.Backgrounds.Add(img);
+                        var attrName = $"src{i}_1x";
+                        if (scenePosters.Attributes.Contains(attrName))
+                        {
+                            var img = scenePosters.Attributes[attrName].Value;
+                            result.Posters.Add(img);
+                            result.Backgrounds.Add(img);
+                        }
                     }
-
             }
 
             var photoPageURL = sceneData.SelectSingleNode("//div[contains(@class, 'content_tab')]/a[text()='Photos']").Attributes["href"].Value;
