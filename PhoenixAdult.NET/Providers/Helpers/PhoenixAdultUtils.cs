@@ -69,7 +69,7 @@ public static class StringExtensions
     public static string Replace(this string source, string from, string to, StringComparison stringComparison)
     {
         if (stringComparison == StringComparison.OrdinalIgnoreCase)
-            return Regex.Replace(source, from, to, RegexOptions.IgnoreCase);
+            return Regex.Replace(source, Regex.Escape(from), to, RegexOptions.IgnoreCase);
         else
             return source?.Replace(from, to, stringComparison);
     }
