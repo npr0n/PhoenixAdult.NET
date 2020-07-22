@@ -24,10 +24,7 @@ namespace PhoenixAdultNET.Providers.Sites
                     curID = $"{siteNum[0]}#{siteNum[1]}#{PhoenixAdultNETHelper.Encode(sceneURL)}";
 
             if (searchDate.HasValue)
-            {
-                var date = searchDate.Value.ToString("yyyy-MM-dd", PhoenixAdultNETProvider.Lang);
-                curID += $"#{date}";
-            }
+                curID += $"#{searchDate.Value.ToString("yyyy-MM-dd", PhoenixAdultNETProvider.Lang)}";
 
             var sceneData = await Update(curID.Split('#'), cancellationToken).ConfigureAwait(false);
 

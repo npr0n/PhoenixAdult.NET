@@ -30,7 +30,8 @@ namespace PhoenixAdultNET.Providers.Sites
                 {
                     CurID = curID,
                     Title = sceneData.Title,
-                    Poster = sceneData.Posters.First()
+                    Poster = sceneData.Posters.First(),
+                    ReleaseDate = sceneData.ReleaseDate
                 });
             }
             else

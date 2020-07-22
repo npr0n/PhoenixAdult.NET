@@ -35,10 +35,7 @@ namespace PhoenixAdultNET.Providers.Sites
                     };
 
                     if (searchDate.HasValue)
-                    {
-                        res.ReleaseDate = searchDate;
                         curID += $"#{searchDate.Value.ToString("yyyy-MM-dd", PhoenixAdultNETProvider.Lang)}";
-                    }
 
                     res.CurID = curID;
 

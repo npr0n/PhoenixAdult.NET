@@ -549,6 +549,10 @@ namespace PhoenixAdultNET.Providers
                         {3, new string [] { "Sperm Swallowers", "https://www.spermswallowers.com", "https://www.spermswallowers.com/trial/search.php?query=" } },
                         {4, new string [] { "GirlGirl", "https://www.girlgirl.com", "https://www.girlgirl.com/trial/search.php?query=" } },
                     }
+                },{
+                    26, new Dictionary<int, string[]> {
+                        {0, new string [] { "LegalPorno", "https://www.legalporno.com", "https://www.legalporno.com/search/?query=" } },
+                    }
                 }
             };
 
@@ -782,6 +786,7 @@ namespace PhoenixAdultNET.Providers
                 case 23: return new NetworkMylf();
                 case 24: return new NetworkMylf();
                 case 25: return new SiteJulesJordan();
+                case 26: return new SiteLegalPorno();
                 default: return null;
             };
         }
