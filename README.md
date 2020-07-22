@@ -46,7 +46,7 @@ Real world examples:
 - `MomsTeachSex - 314082` (taken from the URL [https://momsteachsex.com/tube/watch/**314082**](https://momsteachsex.com/tube/watch/314082))
 - `Babes - 3075191 - Give In to Desire` (taken from the URL [https://www.babes.com/scene/**3075191**/1](https://www.babes.com/scene/3075191/1))
 
-## Required Libraries
+## Used Libraries
 - [Html Agility Pack](https://github.com/zzzprojects/html-agility-pack)
 - [Flurl](https://github.com/tmenier/Flurl)
 - [Json.NET](https://github.com/JamesNK/Newtonsoft.Json)
