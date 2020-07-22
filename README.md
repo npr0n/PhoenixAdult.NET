@@ -12,11 +12,9 @@ This plugin provider information for your adult videos by pulling from the origi
   - Scene Title
   - Scene Summary
   - Studio
-  - Originating Site / Subsite / Site Collection
   - Release Date
   - Genres / Categories / Tags
   - PornStars
-  - Scene Director(s)
   - Movie Poster(s) / Background Art
 
 ## File Naming
