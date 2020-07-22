@@ -171,6 +171,12 @@ The above is a reference list. Please see [the manualsearch doc](./manualsearch.
   - WebYoung
   - WeLikeGirls
 + #### JAV (via R18) | Matching type: *[Enhanced](./manualsearch.md#enhanced-search)* - **SceneID (in form of JAVID)**
++ #### JulesJordan Network | Matching type: *[Enhanced](./manualsearch.md#enhanced-search)*  **Movies Not Supported**
+  - GirlGirl
+  - JulesJordan
+  - ManuelFerrara
+  - SpermSwallowers
+  - TheAssFactory
 + #### Kink Network | Matching type: *[Enhanced](./manualsearch.md#enhanced-search)*
   - 30MinutesofTorment
   - BoundGangBangs
