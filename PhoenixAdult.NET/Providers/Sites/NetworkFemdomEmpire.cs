@@ -18,19 +18,21 @@ namespace PhoenixAdultNET.Providers.Sites
             var url = PhoenixAdultNETHelper.GetSearchSearchURL(siteNum) + encodedTitle;
             var data = await HTML.ElementFromURL(url, cancellationToken).ConfigureAwait(false);
 
-            var searchResults = data.SelectNodes("//div[contains(@class, 'item-info')]");
+            var searchResults = data.SelectNodes("//div[contains(@class, 'item') and contains(@class, 'hover')]");
             if (searchResults != null)
                 foreach (var searchResult in searchResults)
                 {
                     string sceneURL = searchResult.SelectSingleNode(".//a").Attributes["href"].Value,
                             curID = $"{siteNum[0]}#{siteNum[1]}#{PhoenixAdultNETHelper.Encode(sceneURL)}",
-                            sceneName = searchResult.SelectSingleNode(".//a").InnerText.Trim(),
-                            sceneDate = searchResult.SelectSingleNode(".//span[@class='date']").InnerText.Trim();
+                            sceneName = searchResult.SelectSingleNode("///div[contains(@class, 'item-info')]//a").InnerText.Trim(),
+                            sceneDate = searchResult.SelectSingleNode(".//span[@class='date']").InnerText.Trim(),
+                            scenePoster = PhoenixAdultNETHelper.GetSearchBaseURL(siteNum) + searchResult.SelectSingleNode(".//img").Attributes["src0_1x"].Value;
 
                     var res = new SceneSearch
                     {
                         CurID = curID,
-                        Title = sceneName
+                        Title = sceneName,
+                        Poster = scenePoster
                     };
 
                     if (DateTime.TryParseExact(sceneDate, "MMMM d, yyyy", PhoenixAdultNETProvider.Lang, DateTimeStyles.None, out DateTime sceneDateObj))

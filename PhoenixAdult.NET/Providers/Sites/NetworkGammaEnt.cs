@@ -85,11 +85,14 @@ namespace PhoenixAdultNET.Providers.Sites
                     }
                     var sceneDate = sceneDateObj.ToString("yyyy-MM-dd", PhoenixAdultNETProvider.Lang);
 
+                    var image = (string)searchResult["pictures"].Last(item => !item.ToString().Contains("resized", StringComparison.OrdinalIgnoreCase));
+
                     curID = $"{siteNum[0]}#{siteNum[1]}#{sceneType}#{sceneID}#{sceneDate}";
                     var res = new SceneSearch
                     {
                         CurID = curID,
                         Title = sceneName,
+                        Poster = $"https://images-fame.gammacdn.com/movies/{image}",
                         ReleaseDate = sceneDateObj
                     };
 

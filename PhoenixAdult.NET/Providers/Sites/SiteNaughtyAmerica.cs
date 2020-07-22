@@ -47,10 +47,15 @@ namespace PhoenixAdultNET.Providers.Sites
                         sceneName = (string)searchResult["title"];
                 long sceneDate = (long)searchResult["published_at"];
 
+                var sceneURL = $"https://www.naughtyamerica.com/scene/0{sceneID}";
+                var sceneDataHTML = await HTML.ElementFromURL(sceneURL, cancellationToken).ConfigureAwait(false);
+                string scenePoster = $"https:{sceneDataHTML.SelectSingleNode("//div[contains(@class, 'contain-scene-images') and contains(@class, 'desktop-only')]/a").Attributes["href"].Value}"; ;
+
                 result.Add(new SceneSearch
                 {
                     CurID = curID,
                     Title = sceneName,
+                    Poster = scenePoster,
                     ReleaseDate = DateTimeOffset.FromUnixTimeSeconds(sceneDate).DateTime
                 });
             }

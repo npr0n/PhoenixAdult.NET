@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using PhoenixAdultNET.Providers.Helpers;
@@ -33,7 +34,8 @@ namespace PhoenixAdultNET.Providers.Sites
             result.Add(new SceneSearch
             {
                 CurID = curID,
-                Title = sceneData.Title
+                Title = sceneData.Title,
+                Poster = sceneData.Posters.First()
             });
 
             return result;
@@ -57,22 +59,22 @@ namespace PhoenixAdultNET.Providers.Sites
             result.Studios.Add("Porn Pros");
 
             var dateNode = sceneData.SelectSingleNode("//div[@class='d-inline d-lg-block mb-1']/span");
-            string date = null, dateFormat = null;
+            string sceneDate = string.Empty, dateFormat = string.Empty;
             if (dateNode != null)
             {
-                date = dateNode.InnerText.Trim();
+                sceneDate = dateNode.InnerText.Trim();
                 dateFormat = "MMMM dd, yyyy";
             }
             else
             {
                 if (sceneID.Length > 3)
                 {
-                    date = sceneID[3];
+                    sceneDate = sceneID[3];
                     dateFormat = "yyyy-MM-dd";
                 }
             }
-            if (!string.IsNullOrEmpty(date) && !string.IsNullOrEmpty(dateFormat))
-                if (DateTime.TryParseExact(date, dateFormat, PhoenixAdultNETProvider.Lang, DateTimeStyles.None, out DateTime sceneDateObj))
+            if (!string.IsNullOrEmpty(sceneDate) && !string.IsNullOrEmpty(dateFormat))
+                if (DateTime.TryParseExact(sceneDate, dateFormat, PhoenixAdultNETProvider.Lang, DateTimeStyles.None, out DateTime sceneDateObj))
                     result.ReleaseDate = sceneDateObj;
 
             var genres = new List<string>();

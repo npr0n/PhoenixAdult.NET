@@ -65,19 +65,16 @@ namespace PhoenixAdultNET.Providers.Sites
                 var sceneData = await Update(curID.Split('#'), cancellationToken).ConfigureAwait(false);
                 if (sceneData != null)
                 {
-                    var res = new SceneSearch
-                    {
-                        Title = sceneData.Title
-                    };
-
                     if (searchDate.HasValue)
-                    {
-                        res.ReleaseDate = searchDate;
                         curID += $"#{searchDate.Value.ToString("yyyy-MM-dd", PhoenixAdultNETProvider.Lang)}";
-                    }
 
-                    res.CurID = curID;
-                    result.Add(res);
+                    result.Add(new SceneSearch
+                    {
+                        CurID = curID,
+                        Title = sceneData.Title,
+                        Poster = sceneData.Posters.First(),
+                        ReleaseDate = searchDate
+                    });
                 }
             }
 
@@ -92,7 +89,12 @@ namespace PhoenixAdultNET.Providers.Sites
 
             int[] siteNum = new int[2] { int.Parse(sceneID[0], PhoenixAdultNETProvider.Lang), int.Parse(sceneID[1], PhoenixAdultNETProvider.Lang) };
 
-            var sceneURL = PhoenixAdultNETHelper.Decode(sceneID[2]);
+            string sceneURL = PhoenixAdultNETHelper.Decode(sceneID[2]),
+                sceneDate = string.Empty;
+
+            if (sceneID.Length > 3)
+                sceneDate = sceneID[3];
+
             var sceneData = await GetJSONfromPage(sceneURL, cancellationToken).ConfigureAwait(false);
             if (sceneData == null)
                 return null;
@@ -131,7 +133,7 @@ namespace PhoenixAdultNET.Providers.Sites
             else
             {
                 if (sceneID.Length > 3)
-                    if (DateTime.TryParseExact(sceneID[3], "yyyy-MM-dd", PhoenixAdultNETProvider.Lang, DateTimeStyles.None, out DateTime sceneDateObj))
+                    if (DateTime.TryParseExact(sceneDate, "yyyy-MM-dd", PhoenixAdultNETProvider.Lang, DateTimeStyles.None, out DateTime sceneDateObj))
                         releaseDate = sceneDateObj;
             }
 

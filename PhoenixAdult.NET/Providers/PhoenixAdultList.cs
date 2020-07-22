@@ -541,6 +541,14 @@ namespace PhoenixAdultNET.Providers
                         {41, new string [] { "Anal Mom", "https://analmom.com", "https://www.analmom.com/movies/" } },
                         {42, new string [] { "BBC Paradise", "https://www.bbcparadise.com/", "https://www.bbcparadise.com/movies/" } },
                     }
+                },{
+                    25, new Dictionary<int, string[]> {
+                        {0, new string [] { "Jules Jordan", "https://www.julesjordan.com", "https://www.julesjordan.com/trial/search.php?query=" } },
+                        {1, new string [] { "Manuel Ferrara", "https://www.manuelferrara.com", "https://www.manuelferrara.com/trial/search.php?query=" } },
+                        {2, new string [] { "The Ass Factory", "https://www.theassfactory.com", "https://www.theassfactory.com/trial/search.php?query=" } },
+                        {3, new string [] { "Sperm Swallowers", "https://www.spermswallowers.com", "https://www.spermswallowers.com/trial/search.php?query=" } },
+                        {4, new string [] { "GirlGirl", "https://www.girlgirl.com", "https://www.girlgirl.com/trial/search.php?query=" } },
+                    }
                 }
             };
 
@@ -773,6 +781,7 @@ namespace PhoenixAdultNET.Providers
                 case 22: return new SiteBangBros();
                 case 23: return new NetworkMylf();
                 case 24: return new NetworkMylf();
+                case 25: return new SiteJulesJordan();
                 default: return null;
             };
         }

@@ -56,7 +56,7 @@ namespace PhoenixAdultNET.Providers.Helpers
 
             if (siteNum != null)
             {
-                var site = GetSearchBaseURL(siteNum).Split(new[] { ':', '/', '/' })[1];
+                var site = GetSearchBaseURL(siteNum).Split(':')[1].Replace("//", "", StringComparison.OrdinalIgnoreCase);
                 searchTerm = $"site:{site} {text}";
             }
             else

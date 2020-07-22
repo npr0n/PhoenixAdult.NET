@@ -45,7 +45,6 @@ namespace PhoenixAdultNET.Providers
                 var provider = PhoenixAdultNETList.GetProviderBySiteID(siteNum[0]);
                 if (provider != null)
                 {
-                    Console.WriteLine(searchTitle);
                     result = await provider.Search(siteNum, searchTitle, encodedTitle, searchDateObj, cancellationToken).ConfigureAwait(false);
                     if (result.Count > 0)
                         if (result.Any(scene => scene.IndexNumber.HasValue))

@@ -7,9 +7,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>DirtyRacer</Authors>
     <Company>DirtyRacer</Company>
-    <Version>1.1.3</Version>
-    <AssemblyVersion>1.1.3</AssemblyVersion>
-    <FileVersion>1.1.3</FileVersion>
+    <Version>1.2.4</Version>
+    <AssemblyVersion>1.2.4</AssemblyVersion>
+    <FileVersion>1.2.4</FileVersion>
     <Description>This plugin provider information for your adult videos by pulling from the original site</Description>
     <RepositoryUrl>https://github.com/DirtyRacer1337/PhoenixAdult.NET</RepositoryUrl>
   </PropertyGroup>

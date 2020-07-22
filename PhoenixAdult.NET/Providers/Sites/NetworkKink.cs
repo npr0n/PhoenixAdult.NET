@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
@@ -28,7 +29,8 @@ namespace PhoenixAdultNET.Providers.Sites
                 result.Add(new SceneSearch
                 {
                     CurID = curID,
-                    Title = sceneData.Title
+                    Title = sceneData.Title,
+                    Poster = sceneData.Posters.First()
                 });
             }
             else

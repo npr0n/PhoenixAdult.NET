@@ -66,13 +66,21 @@ namespace PhoenixAdultNET.Providers.Sites
                 {
                     string sceneID = (string)searchResult["id"],
                             curID = $"{siteNum[0]}#{siteNum[1]}#{sceneID}#{sceneType}",
-                            sceneName = (string)searchResult["title"];
+                            sceneName = (string)searchResult["title"],
+                            scenePoster = string.Empty;
                     DateTime sceneDateObj = (DateTime)searchResult["dateReleased"];
+
+                    var imageTypes = new List<string> { "poster", "cover" };
+                    foreach (var imageType in imageTypes)
+                        if (searchResult["images"][imageType] != null)
+                            foreach (var image in searchResult["images"][imageType])
+                                scenePoster = (string)image["xx"]["url"];
 
                     var res = new SceneSearch
                     {
                         CurID = curID,
                         Title = sceneName,
+                        Poster = scenePoster,
                         ReleaseDate = sceneDateObj
                     };
 
